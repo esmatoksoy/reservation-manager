@@ -6,25 +6,30 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table(name = "reservation_details")
-public class ReservationDetails {
+@Table(name = "reservation_guest_details")
+public class ReservationGuestDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "reservation_id", nullable = false)
-    private Reservation reservation;
-
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "allergies")
     private String allergies;
 
-    @Column(name = "extra_needs", columnDefinition = "TEXT")
+    @Column(name = "room_preferences")
+    private String roomPreferences;
+
+    @Column(name = "extra_needs")
     private String extraNeeds;
+
+    @Column(name = "expected_arrival")
+    private LocalDateTime expectedArrival;
+
 }

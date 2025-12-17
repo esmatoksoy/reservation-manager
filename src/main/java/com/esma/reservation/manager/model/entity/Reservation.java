@@ -2,32 +2,30 @@ package com.esma.reservation.manager.model.entity;
 import com.esma.reservation.manager.model.enums.ReservationStatus;
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDateTime;
+
+import java.time.LocalDate;
+
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "reservations")
+@Table(name = "reservation")
 public class Reservation {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "guest_id", nullable = false)
-    private User guestUser;
-
     @Column(name = "reservation_number", nullable = false, unique = true)
     private String reservationNumber;
 
-    @Column(name = "arrival_time")
-    private LocalDateTime arrivalTime;
+    @Column(name = "booked_date")
+    private LocalDate bookedDate;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    @Builder.Default
-    private ReservationStatus status = ReservationStatus.PENDING;
+        @Column(name = "status", nullable = false)
+        private ReservationStatus status;
+
+
 }

@@ -9,7 +9,6 @@ import java.util.Optional;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
-    // You will need this for your employee workflow
     Optional<Reservation> findByReservationNumber(String reservationNumber);
 
 }
