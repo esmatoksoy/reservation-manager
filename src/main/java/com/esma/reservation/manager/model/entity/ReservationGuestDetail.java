@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "reservation_guest_details")
-public class ReservationGuestDetails {
+@Table(name = "reservation_guest_detail")
+public class ReservationGuestDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,5 +31,9 @@ public class ReservationGuestDetails {
 
     @Column(name = "expected_arrival")
     private LocalDateTime expectedArrival;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reservation_guest_id", referencedColumnName = "id")
+    private ReservationGuest reservationGuest;
 
 }

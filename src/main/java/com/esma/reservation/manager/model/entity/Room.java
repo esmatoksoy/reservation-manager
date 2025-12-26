@@ -3,6 +3,9 @@ package com.esma.reservation.manager.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -13,7 +16,7 @@ public class Room {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "room_number", unique = true)
     private String roomNumber;
@@ -24,6 +27,8 @@ public class Room {
     @Column(name = "capacity")
     private Integer capacity;
 
-    @Column(name = "is_full")
-    private Boolean isFull;
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReservationGuest> reservationRoomGuests = new ArrayList<>();
+
+
 }

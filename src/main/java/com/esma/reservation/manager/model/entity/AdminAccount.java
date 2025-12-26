@@ -1,8 +1,7 @@
 package com.esma.reservation.manager.model.entity;
-import com.esma.reservation.manager.model.enums.Role;
+import com.esma.reservation.manager.model.type.Role;
 import jakarta.persistence.*;
 
-import java.time.Instant;
 import java.util.*;
 import java.time.LocalDateTime;
 
@@ -33,15 +32,24 @@ public class AdminAccount {
     @Column(name = "role")
     private Role role;
 
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "admin_reservation_map",
+            joinColumns = @JoinColumn(name = "admin_id"),
+            inverseJoinColumns = @JoinColumn(name = "reservation_id")
+    )
+    @Builder.Default
+    private Set<Reservation> reservations = new HashSet<>();
+
     @Column(name = "created_at", updatable = false)
     @Builder.Default
-    private Instant createdAt = Instant.now();
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(name = "updated_at")
     @Builder.Default
-    private Instant updatedAt = Instant.now();
+    private LocalDateTime updatedAt = LocalDateTime.now();
 
     @Column(name ="deleted_at")
-    private Instant deletedAt;
+    private LocalDateTime deletedAt;
 
 }
