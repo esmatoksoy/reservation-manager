@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.List;
 
 import java.time.LocalDateTime;
 
@@ -21,13 +22,19 @@ public class ReservationGuestDetail {
     private Long id;
 
     @Column(name = "allergies")
-    private String allergies;
+    private List<String> allergies;
 
     @Column(name = "room_preferences")
     private String roomPreferences;
 
     @Column(name = "extra_needs")
     private String extraNeeds;
+
+    @Column(name = "special_requests")
+    private String specialRequests;
+
+    @Column(name = "allergies_other")
+    private String allergiesOther;
 
     @Column(name = "expected_arrival")
     private LocalDateTime expectedArrival;
