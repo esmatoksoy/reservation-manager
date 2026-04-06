@@ -12,4 +12,7 @@ public class FormDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime expectedArrival;
     private List<ReservationGuestDetailDto> guests;
+    private boolean sendEmail;
+    private boolean isAdminUpdate;
+
 }

@@ -8,7 +8,6 @@ import org.hibernate.proxy.HibernateProxy;
 import java.time.LocalDateTime;
 import java.util.*;
 
-
 @Getter
 @Setter
 @ToString
@@ -16,7 +15,10 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "reservation")
+@Table(name = "reservation", indexes = {
+        @Index(name = "idx_reservation_number", columnList = "reservation_number"),
+        @Index(name = "idx_status", columnList = "status")
+})
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -14,6 +14,7 @@ public class ReservationDetailResponseDto {
     private String checkInDate;
     private String checkOutDate;
     private String roomType;
+    private Long roomId;
     private Integer numberOfGuests;
     private List<ReservationGuestDetailDto> guestDetails;
 }

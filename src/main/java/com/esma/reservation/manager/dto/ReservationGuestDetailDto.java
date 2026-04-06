@@ -19,7 +19,5 @@ public class ReservationGuestDetailDto {
     private String extraNeeds;
     private String specialRequests;
     private LocalDateTime expectedArrival;
+    private Long roomId;
 }
-
-
-
