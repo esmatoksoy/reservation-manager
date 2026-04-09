@@ -19,5 +19,5 @@ services:
       - "5672:5672"   # RabbitMQ iletişim portu
       - "15672:15672" # Yönetim Paneli (Browser'dan erişim için)
     environment:
-      RABBITMQ_DEFAULT_USER: ***REMOVED***
-      RABBITMQ_DEFAULT_PASS: ***REMOVED***
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USERNAME}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
