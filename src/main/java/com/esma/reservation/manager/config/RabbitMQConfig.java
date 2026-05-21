@@ -19,11 +19,10 @@ public class RabbitMQConfig {
 
     @Value("${app.rabbitmq.routing-key:reservation_routing_key}")
     private String routingKey; //
-    //bean is a Java object managed by the Spring IoC container that defines a
-    // component of your messaging infrastructure or logic
+    //bean is a Java object managed by the Spring IoC container that defines a component of your messaging infrastructure or logic
     @Bean
     //When you define these components as beans, the RabbitAdmin (part of Spring AMQP)
-    // automatically interacts with the RabbitMQ broker to declare them (create them on the server) when the application starts or a connection is established
+    // automatically interacts with the RabbitMQ broker to declare them when the application starts or a connection is established
     public Queue reservationMailQueue() {
         return new Queue(queueName, true);
     }
