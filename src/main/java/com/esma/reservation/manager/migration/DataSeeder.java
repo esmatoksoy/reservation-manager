@@ -29,7 +29,6 @@ import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Component
-
 public class DataSeeder implements ApplicationRunner {
 
     private final CustomerRepository customerRepository;
@@ -37,6 +36,8 @@ public class DataSeeder implements ApplicationRunner {
     private final ReservationGuestRepository reservationGuestRepository;
     private final RoomRepository roomRepository;
     private final AdminAccountRepository adminRepository;
+    private final PasswordEncoder passwordEncoder;
+
     @Override
     @Transactional
     public void run(ApplicationArguments args) throws Exception {
@@ -45,7 +46,7 @@ public class DataSeeder implements ApplicationRunner {
         AdminAccount superAdmin = new AdminAccount();
         superAdmin.setUsername("admin");
         superAdmin.setEmail("admin@hotel.com");
-        superAdmin.setPassword("admin123");
+        superAdmin.setPassword(passwordEncoder.encode("admin123"));
         superAdmin.setRole(Role.ADMIN);
         superAdmin.setCreatedAt(LocalDateTime.now());
         superAdmin.setUpdatedAt(LocalDateTime.now());
@@ -54,7 +55,7 @@ public class DataSeeder implements ApplicationRunner {
         AdminAccount staffAdmin = new AdminAccount();
         staffAdmin.setUsername("staff");
         staffAdmin.setEmail("staff@hotel.com");
-        staffAdmin.setPassword("staff123");
+        staffAdmin.setPassword(passwordEncoder.encode("staff123"));
         staffAdmin.setRole(Role.ADMIN);
         staffAdmin.setCreatedAt(LocalDateTime.now());
         staffAdmin.setUpdatedAt(LocalDateTime.now());
