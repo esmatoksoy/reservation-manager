@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation Guest Details</title>
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <div class="hotel-logo">Grand Hotel</div>
+    <h1>Welcome!</h1>
+    <p class="subtitle">Customize Your Upcoming Stay</p>
+
+    <form action="/guest-detail" method="post" id="reservationGuestForm">
+        <div class="form-group">
+            <label for="expectedArrival">Estimated Arrival Time</label>
+            <input type="datetime-local" id="expectedArrival" name="expectedArrival" required />
+        </div>
+
+        <div class="form-group">
+            <label for="roomType">Room Type</label>
+            <select id="roomType" name="roomType" required>
+                <option value="">Select...</option>
+                <option>Standard</option>
+                <option>Deluxe</option>
+                <option>Suite</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="specialRequests">Special Requests</label>
+            <textarea id="specialRequests" name="specialRequests" rows="2" placeholder="Towels, pillows, etc."></textarea>
+        </div>
+
+        <div id="guestsContainer"></div>
+        <button type="button" onclick="addGuest()">Add Guest</button>
+
+        <div class="margin-top15"></div>
+        <button type="submit">Save All Preferences</button>
+    </form>
+</div>
+</body>
+</html>

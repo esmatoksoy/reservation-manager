@@ -1,0 +1,23 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8090:8080"  # Map port 8080 in the container to port 8090 on the host
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: reservation_db
+    ports:
+      - "5433:5432"
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq-container
+    ports:
+      - "5672:5672"   # RabbitMQ iletişim portu
+      - "15672:15672" # Yönetim Paneli (Browser'dan erişim için)
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USERNAME}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
