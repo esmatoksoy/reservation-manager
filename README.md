@@ -44,13 +44,12 @@ A full-stack hotel reservation management system built with **Spring Boot**. It 
 | Mapping            | MapStruct                       |
 | Build              | Maven                           |
 | Containerization   | Docker & Docker Compose         |
-| Frontend           | HTML / CSS / JavaScript (static)|
+| Frontend           | React                           |
 
 ---
 
 ## 🏗 Architecture
 
-```
 src/main/java/com/esma/reservation/manager/
 ├── config/          # RabbitMQ and app configuration
 ├── controller/      # REST controllers (Admin, Reservation, RabbitTest)
@@ -64,7 +63,6 @@ src/main/java/com/esma/reservation/manager/
 ├── repository/      # Spring Data JPA repositories
 ├── security/        # Security configuration
 └── service/         # Business logic layer
-```
 
 ---
 
@@ -80,26 +78,20 @@ src/main/java/com/esma/reservation/manager/
 
 ### 1. Clone the Repository
 
-```bash
 git clone https://github.com/esmatoksoy/reservation-manager.git
 cd reservation-manager
-```
 
 ### 2. Configure Environment Variables
 
 Create a `.env` file in the project root:
 
-```env
 DB_PASSWORD=your_postgres_password
 RABBITMQ_USERNAME=guest
 RABBITMQ_PASSWORD=guest
-```
 
 ### 3. Build & Run
 
-```bash
 docker-compose up --build
-```
 
 ### 4. Access the Application
 
@@ -111,7 +103,6 @@ docker-compose up --build
 
 ### Management Commands
 
-```bash
 # Run in detached mode
 docker-compose up -d
 
@@ -120,7 +111,6 @@ docker-compose down
 
 # View logs
 docker-compose logs -f app
-```
 
 ---
 
