@@ -1,7 +1,9 @@
 # 🏨 Reservation Manager
 
 A full-stack hotel reservation management system built with **Spring Boot**. It allows customers to create and manage reservations, and provides an admin panel for hotel staff to oversee all bookings.
+## 🔗 Related Repositories
 
+* **Frontend Client (React + Vite):** [esmatoksoy/reservation-manager-frontend](https://github.com/esmatoksoy/reservation-manager-frontend) — Built with React 18, Vite, Ant Design, and Redux Toolkit.
 ---
 
 ## 📋 Table of Contents
