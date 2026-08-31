@@ -4,6 +4,11 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.QueueBuilder;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,13 +23,24 @@ public class RabbitMQConfig {
     private String exchangeName;
 
     @Value("${app.rabbitmq.routing-key:reservation_routing_key}")
-    private String routingKey; //
-    //bean is a Java object managed by the Spring IoC container that defines a component of your messaging infrastructure or logic
+    private String routingKey;
+
+    // Dead Letter Queue configuration
+    private static final String DLQ_SUFFIX = ".dlq";
+    private static final String DLQ_EXCHANGE_SUFFIX = ".dlx";
+
     @Bean
-    //When you define these components as beans, the RabbitAdmin (part of Spring AMQP)
-    // automatically interacts with the RabbitMQ broker to declare them when the application starts or a connection is established
     public Queue reservationMailQueue() {
-        return new Queue(queueName, true);
+        // Attach dead-letter exchange so failed messages are routed to the DLQ
+        return QueueBuilder.durable(queueName)
+                .withArgument("x-dead-letter-exchange", exchangeName + DLQ_EXCHANGE_SUFFIX)
+                .withArgument("x-dead-letter-routing-key", queueName + DLQ_SUFFIX)
+                .build();
+    }
+
+    @Bean
+    public Queue reservationMailDlq() {
+        return QueueBuilder.durable(queueName + DLQ_SUFFIX).build();
     }
 
     @Bean
@@ -33,9 +49,33 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public DirectExchange reservationDeadLetterExchange() {
+        return new DirectExchange(exchangeName + DLQ_EXCHANGE_SUFFIX);
+    }
+
+    @Bean
     public Binding reservationMailBinding(Queue reservationMailQueue, DirectExchange reservationExchange) {
         return BindingBuilder.bind(reservationMailQueue)
                 .to(reservationExchange)
                 .with(routingKey);
+    }
+
+    @Bean
+    public Binding reservationMailDlqBinding(Queue reservationMailDlq, DirectExchange reservationDeadLetterExchange) {
+        return BindingBuilder.bind(reservationMailDlq)
+                .to(reservationDeadLetterExchange)
+                .with(queueName + DLQ_SUFFIX);
+    }
+
+    @Bean
+    public MessageConverter jsonMessageConverter() {
+        return new Jackson2JsonMessageConverter();
+    }
+
+    @Bean
+    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
+        RabbitTemplate template = new RabbitTemplate(connectionFactory);
+        template.setMessageConverter(jsonMessageConverter());
+        return template;
     }
 }

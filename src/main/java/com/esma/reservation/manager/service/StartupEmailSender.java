@@ -17,7 +17,7 @@ import java.util.List;
 public class StartupEmailSender {
 
     private final ReservationRepository reservationRepository;
-    private final EmailService emailService;
+    private final RabbitPublisher rabbitPublisher;
     @EventListener(ApplicationReadyEvent.class)
     public void sendPendingReservationEmails() {
         log.info("Application started. Checking for PENDING reservations...");
@@ -31,12 +31,10 @@ public class StartupEmailSender {
             String customerEmail = reservation.getCustomer().getEmail();
             String reservationNumber = reservation.getReservationNumber();
 
-            try {
-                emailService.sendReservationFormLink(customerEmail, reservationNumber);
-                log.info("Email sent for reservation: {}", reservationNumber);
-            } catch (Exception e) {
-                log.error("Failed to send email for reservation: {}", reservationNumber, e);
-            }
+
+            rabbitPublisher.publishReservationFormLink(customerEmail, reservationNumber);
+            log.info("Email queued via RabbitMQ for reservation: {}", reservationNumber);
+
         }
     }
 }

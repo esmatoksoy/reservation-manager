@@ -35,7 +35,7 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final ReservationGuestRepository reservationGuestRepository;
     private final ReservationMapper reservationMapper;
-    private final EmailService emailService;
+    private final RabbitPublisher rabbitPublisher;
     private final CustomerRepository customerRepository;
     private final RoomRepository roomRepository;
 
@@ -129,8 +129,9 @@ public class ReservationService {
         log.info("Reservation status changed to CONFIRMED: {}", reservation.getReservationNumber());
 
         if (sendEmail) {// Only send email if admin chose to send it
-            emailService.sendDetailedReservationEmail(reservation);
-            log.info("Detailed confirmation email sent for reservation: {}", reservation.getReservationNumber());
+            rabbitPublisher.publishDetailedReservationEmail(
+                    reservation.getCustomer().getEmail(), reservation.getReservationNumber());
+            log.info("Detailed confirmation email queued via RabbitMQ for reservation: {}", reservation.getReservationNumber());
         } else {
             log.info("Email NOT sent (admin chose 'Save' only) for reservation: {}", reservation.getReservationNumber());
         }
@@ -246,12 +247,13 @@ public List<Reservation> getReservationsByCustomerId(Long customerId) {
         }
 
         if (dto.isSendEmail()) {
-            emailService.sendReservationFormLink(customer.getEmail(), reservation.getReservationNumber());
-            log.info("Reservation form link email sent for reservation: {}", reservation.getReservationNumber());
+            rabbitPublisher.publishReservationFormLink(customer.getEmail(), reservation.getReservationNumber());
+            log.info("Reservation form link email queued via RabbitMQ for reservation: {}", reservation.getReservationNumber());
         } else {
             log.info("Email NOT sent for new reservation: {}", reservation.getReservationNumber());
         }
 
         return reservation.getReservationNumber();
     }
+
 }

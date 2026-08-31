@@ -18,7 +18,7 @@ public class RabbitTestController {
     @PostMapping("/publish-10")
     public ResponseEntity<String> publishTenMessages() {
         for (int i = 1; i <= 10; i++) {
-            publisher.send("x"+i);
+            publisher.publishReservationFormLink("test" + i + "@test.com", "TEST-REF-" + i);
         }
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Published 10 test messages");
     }
