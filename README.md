@@ -44,7 +44,7 @@ A full-stack hotel reservation management system built with **Spring Boot**. It 
 | Mapping            | MapStruct                       |
 | Build              | Maven                           |
 | Containerization   | Docker & Docker Compose         |
-| Frontend           | HTML / CSS / JavaScript (static)|
+| Frontend           | React                           |
 
 ---
 
